@@ -85,7 +85,6 @@ function cadastroClienteView(req, resp){
     `)
 
     function cadastrarCliente(req, resp){
-        //recuperar os dados do formulário enviados para o servidor
         const nome      = req.body.nome;
         const sobrenome = req.body.sobrenome;
         const  CPF     = req.body.CPF;
@@ -94,12 +93,9 @@ function cadastroClienteView(req, resp){
         const numero      = req.body.numero;
     
         const cliente = {nome, sobrenome, CPF, endereço, estado, numero};
-    
-        //adicionar o aluno na lista
-        listaClientes.push(cliente);
-    
-        //mostrar a lista de alunos já cadastrados
-        
+   
+         listaClientes.push(cliente);
+ 
         resp.write(`
             <html>
                 <head>
@@ -144,8 +140,8 @@ function cadastroClienteView(req, resp){
         resp.end();//será enviada a resposta
     }
     
-    app.get('/cadastrarCliente', cadastroClienteView); //enviar o formulário para cadastrar alunos
-    //a novidade desta aula é o método POST
+    app.get('/cadastrarCliente', cadastroClienteView); 
+  
     app.post('/cadastrarCliente',cadastrarCliente);
     
 }
