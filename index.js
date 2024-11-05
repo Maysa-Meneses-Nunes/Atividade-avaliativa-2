@@ -137,7 +137,7 @@ function cadastroClienteView(req, resp){
             </html>
                 `);
     
-        resp.end();//será enviada a resposta
+        resp.end();
     }
     
     app.get('/cadastrarCliente', cadastroClienteView); 
