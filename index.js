@@ -1,14 +1,18 @@
 import express from 'express';
 
+
 const app = express();
 
+
+app.use(express.urlencoded({ extended: true}));
+
 const porta = 3000;
-const host = '0.0.0.0';
+const host = 'localhost';
 
 var listaClientes = [];
-function cadastroClienteView(req, resp){
- resp.send(`
-     <html> 
+function cadastroClienteView(req, resp) {
+    resp.send(`
+            <html> 
      <head>
                 <title> Cadastro </title>
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -82,70 +86,93 @@ function cadastroClienteView(req, resp){
     </body>
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </html>
-    `)
-
-    function cadastrarCliente(req, resp){
-        const nome      = req.body.nome;
-        const sobrenome = req.body.sobrenome;
-        const  CPF     = req.body.CPF;
-        const endereço    = req.body.endereço;
-        const estado    = req.body.estado;
-        const numero      = req.body.numero;
-    
-        const cliente = {nome, sobrenome, CPF, endereço, estado, numero};
-   
-         listaClientes.push(cliente);
- 
-        resp.write(`
-            <html>
-                <head>
-                    <title>Clientes Cadastrados</title>
-                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-                    <meta charset="utf-8">
-                </head>
-                <body>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Sobrenome</th>
-                            <th scope="col">CPF</th>
-                            <th scope="col">endereço</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col">numero</th>
-                        </tr>
-                    </thead>
-                    <tbody>`);
-
-                    for (var i = 0; i < listaClientes.length; i++){
-                        resp.write(`<tr>
-                                        <td>${listaClientes[i].nome}</td>
-                                        <td>${listaClientes[i].sobrenome}</td>
-                                        <td>${listaClientes[i].CPF}</td>
-                                        <td>${listaClientes[i].endereço}</td>
-                                        <td>${listaClientes[i].estado}</td>
-                                        <td>${listaClientes[i].numero}</td>
-                                    </tr>
-                            `);
-                    }
-    
-        resp.write(`</tbody> 
-                </table>
-                <a class="btn btn-primary" href="/cadastrarCliente">Continuar Cadastrando</a>
-                </body>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-            </html>
-                `);
-    
-        resp.end();
-    }
-    
-    app.get('/cadastrarCliente', cadastroClienteView); 
-  
-    app.post('/cadastrarCliente',cadastrarCliente);
-    
+    `);
 }
 
+function menuView(req, resp){
+    resp.send(`
+        <html>
+            <head>
+                <title>Cadastro de Alunos</title>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+            </head>
+            <body>
+                <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">MENU</a>
+                        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                            <div class="navbar-nav">
+                                <a class="nav-link active" aria-current="page" href="/cadastrarCliente">Cadastrar Cliente</a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </body>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        </html>
+        `);
+}
+
+function cadastrarCliente(req, resp){
+    const nome      = req.body.nome;
+    const sobrenome = req.body.sobrenome;
+    const  CPF     = req.body.CPF;
+    const endereço    = req.body.endereço;
+    const estado    = req.body.estado;
+    const numero      = req.body.numero;
+
+    const cliente = {nome, sobrenome, CPF, endereço, estado, numero};
+
+     listaClientes.push(cliente);
+
+    resp.write(`
+        <html>
+            <head>
+                <title>Clientes Cadastrados</title>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+                <meta charset="utf-8">
+            </head>
+            <body>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Sobrenome</th>
+                        <th scope="col">CPF</th>
+                        <th scope="col">endereço</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">numero</th>
+                    </tr>
+                </thead>
+                <tbody>`);
+
+                for (var i = 0; i < listaClientes.length; i++){
+                    resp.write(`<tr>
+                                    <td>${listaClientes[i].nome}</td>
+                                    <td>${listaClientes[i].sobrenome}</td>
+                                    <td>${listaClientes[i].CPF}</td>
+                                    <td>${listaClientes[i].endereço}</td>
+                                    <td>${listaClientes[i].estado}</td>
+                                    <td>${listaClientes[i].numero}</td>
+                                </tr>
+                        `);
+                }
+
+    resp.write(`</tbody> 
+            </table>
+            <a class="btn btn-primary" href="/cadastrarCliente">Continuar Cadastrando</a>
+            </body>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        </html>
+            `);
+
+    resp.end();
+}
+
+app.get('/', menuView);
+app.get('/cadastrarCliente', cadastroClienteView); 
+app.post('/cadastrarCliente',cadastrarCliente);
+
 app.listen(porta, host, () => {
-    console.log(`Servidor iniciado e em execução no endereço http://${host}:${porta}`);
+    console.log(`Servidor iniciado e em execução no endereço http://${host}:${porta}/`);
 });
